@@ -1,0 +1,104 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnMate Chatbot</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>LearnMate Chatbot</h1>
+                <div id="chat-box" class="border p-3 mb-3" style="height: 300px; overflow-y: scroll;"></div>
+                <input type="text" id="user-input" class="form-control mb-2">
+                <button id="send-button" class="btn btn-primary btn-block">Send</button>
+                <button id="add-button" class="btn btn-secondary btn-block mt-2">Add Chat</button>
+                <button id="delete-button" class="btn btn-danger btn-block mt-2">Delete Chat</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#send-button').click(function() {
+                var userInput = $('#user-input').val();
+                $('#chat-box').append('<p><strong>You:</strong> ' + userInput + '</p>');
+                $('#user-input').val('');
+                $.ajax({
+                    url: '/send_message',
+                    method: 'POST',
+                    data: { user_input: userInput },
+                    success: function(response) {
+                        $('#chat-box').append('<p><strong>LearnMate:</strong> ' + response + '</p>');
+                    }
+                });
+            });
+
+            $('#add-button').click(function() {
+                $('#chat-box').append('<p><strong>User:</strong> New chat added!</p>');
+            });
+
+            $('#delete-button').click(function() {
+                $('#chat-box p:last-child').remove();
+            });
+        });
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnMate Chatbot</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <span class="navbar-text">LearnMate Chatbot</span>
+                </li>
+                <li class="nav-item">
+                    <span class="navbar-text">Version: 1.0</span>
+                </li>
+                <li class="nav-item">
+                    <span class="navbar-text">Owner: Your Name</span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 sidebar">
+                <ul id="chat-history" class="list-group">
+                </ul>
+                <button id="add-button" class="btn btn-secondary mt-2">Add Chat</button>
+                <button id="delete-button" class="btn btn-danger mt-2">Delete Chat</button>
+            </div>
+            <div class="col-md-9 main-content">
+                <h1 class="text-center">LearnMate Chatbot</h1>
+                <div id="chat-box" class="border p-3 mb-3"></div>
+                <input type="text" id="user-input" class="form-control mb-2">
+                <button id="send-button" class="btn btn-primary btn-block">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+

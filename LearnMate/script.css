@@ -1,0 +1,47 @@
+function sendMessage() {
+    var userInput = document.getElementById("user-input").value;
+    if (userInput.trim() !== "") {
+        addMessage("You", userInput);
+        document.getElementById("user-input").value = "";
+    }
+}
+
+function addMessage(sender, message) {
+    var chatHistory = document.getElementById("chat-history");
+    var li = document.createElement("li");
+    li.textContent = sender + ": " + message;
+    chatHistory.appendChild(li);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+}
+
+function addChat() {
+    addMessage("User", "New chat added!");
+}
+
+function deleteChat() {
+    var chatHistory = document.getElementById("chat-history");
+    var selectedChat = chatHistory.querySelector("li:last-child");
+    if (selectedChat) {
+        chatHistory.removeChild(selectedChat);
+    }
+}
+
+
+// =================================
+
+function sendMessage() {
+    var userInput = $('#user-input').val();
+    $('#chat-box').append('<p><strong>You:</strong> ' + userInput + '</p>');
+    $('#user-input').val('');
+    $.ajax({
+        url: '/send_message',
+        method: 'POST',
+        data: { user_input: userInput },
+        success: function(response) {
+            $('#chat-box').append('<p><strong>LearnMate:</strong> ' + response + '</p>');
+        },
+        error: function(xhr, status, error) {
+            console.error('Error sending message:', error);
+        }
+    });
+}

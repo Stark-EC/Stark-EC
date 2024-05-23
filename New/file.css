@@ -1,0 +1,70 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to add a new chat message to the chat history
+    function addChatMessage(message) {
+        var chatHistory = document.getElementById('chat-history');
+        var li = document.createElement('li');
+        li.textContent = message;
+        chatHistory.appendChild(li);
+    }
+
+    // Function to send a message to the chatbot and update the chat interface
+    function sendMessage() {
+        var userInput = document.getElementById('user-input').value;
+        addChatMessage('You: ' + userInput);
+        
+        // Make an AJAX request to the server (you can replace this with your backend logic)
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/send_message', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    addChatMessage('LearnMate: ' + response);
+                } else {
+                    console.error('Error sending message:', xhr.statusText);
+                }
+            }
+        };
+        xhr.send(JSON.stringify({ user_input: userInput }));
+        
+        // Clear the input field after sending the message
+        document.getElementById('user-input').value = '';
+    }
+
+    // Add event listener to the Send button
+    document.getElementById('send-button').addEventListener('click', function() {
+        sendMessage();
+    });
+
+    // Add event listener to the Enter key in the input field
+    document.getElementById('user-input').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    // Function to add a new chat (dummy function, you can replace with your own logic)
+    function addChat() {
+        addChatMessage('New chat added!');
+    }
+
+    // Function to delete the selected chat (dummy function, you can replace with your own logic)
+    function deleteChat() {
+        var chatHistory = document.getElementById('chat-history');
+        var selectedChat = chatHistory.querySelector('li.selected');
+        if (selectedChat) {
+            chatHistory.removeChild(selectedChat);
+        }
+    }
+
+    // Add event listener to the Add Chat button
+    document.getElementById('add-button').addEventListener('click', function() {
+        addChat();
+    });
+
+    // Add event listener to the Delete Chat button
+    document.getElementById('delete-button').addEventListener('click', function() {
+        deleteChat();
+    });
+});
